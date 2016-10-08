@@ -1,0 +1,40 @@
+﻿9-20:
+	1.使用$.post提交ajax时，当ajax处理文件(ajax.php)	存在错误时，回调函数的返回值会带有错误信息(notice信息)，导致返回的数据带有html代码。当用$.parseJSON()去解析时会解析失败，从而无法执行成功回调函数。存在此类情况注意排查ajax文件是否存在错误。
+
+	2.js实现页面跳转方法
+	 alert("领奖成功,点击进入优惠券查看");
+	 location.href="../../user/index.php";//跳转到会员中心
+	 浏览器会在点击alert的确定后才跳转。
+
+	3.初步理解微信获取微信用户信息流程：
+	(1).服务器访问带有重定向链接为参数的链接https://open.weixin.qq.com/connect/oauth2/authorize?appid=".appID."&redirect_uri=".$re_url."&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"获取code值
+
+	(2).根据得到的code在发起链接"https://api.weixin.qq.com/sns/oauth2/access_token?appid=".appID."&secret=".appsecret."&code=".$code."&grant_type=authorization_code"返回带有openid(用户对公众号的唯一标识符)和网页授权的access_token的json数据
+
+	(3).当网页授权作用域scope的值为userinfo是可以通过access_token和openid获取用户的个人信息。
+	访问URL为：https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN"
+
+9-26:
+	1.js中将string转为int可使用parseInt()函数。
+
+9-28:
+	1.今天查看天能合康后台优惠券列表源码，发现其中对结果列表的各种限制可以通过$where.=***来根据条件增加对结果的限制，其中输入用户名搜索结果值得思考。
+	2.数据库存储中文时，查询输出到浏览器可能会存在乱码现象。除了数据库编码和数据表编码为utf-8外，在链接数据库时也要设置编码。
+	代码：@mysql_query("set names 'utf8'"); 
+	3.关于javascript变量的作用域：
+	局部 JavaScript 变量
+		在 JavaScript 函数内部声明的变量（使用 var）是局部变量，所以只能在函数内部访问它		。（该变	量的作用域是局部的）。
+
+	全局 JavaScript 变量
+		在函数外声明的变量是全局变量，网页上的所有脚本和函数都能访问它。
+	
+	向未声明的 JavaScript 变量分配值
+		如果您把值赋给尚未声明的变量，该变量将被自动作为全局变量声明。
+	如果变量在函数内没有声明（没有使用 var 关键字），该变量为全局变量。
+
+9-29:
+	1.setInterval(func,delay)函数是周期周期性的执行一个函数或代码（不是只执行一次）
+	类似的函数有：
+	clearInterval	取消掉用setInterval设置的重复执行动作。
+	setTimeout	在指定的延迟时间之后调用一个函数或者执行一个代码片段。
+	clearTimeout	方法可取消由 setTimeout() 方法设置的 timeout。
